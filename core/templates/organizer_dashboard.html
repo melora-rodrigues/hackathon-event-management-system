@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>Organizer Dashboard</h2>
+
+<!-- {% for event in events %}
+    <div>
+        <h3>{{ event.name }}</h3> -->
+
+        <!-- <a href="{% url 'leaderboard' event.id %}">
+            <button>Leaderboard</button>
+        </a>
+    </div>
+{% endfor %} <br> -->
+
+{% if events %}
+    {% for event in events %}
+        <p>Final results updates <a href="{% url 'leaderboard' event.id %}">
+            <button>Leaderboard</button>
+        </a></p><br><br>
+
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <h3>{{ event.name }}</h3>
+            <p>{{ event.description }}</p>
+            <p><strong>Event Date:</strong> {{ event.date }}</p>
+            <p><strong>Deadline:</strong> {{  event.submission_deadline }}</p>
+            <p><strong>Submissions:</strong> {{ event.submission_set.count }}</p>
+        </div>
+</a>
+    {% endfor %}
+{% else %}
+    <p>You have not created any events yet.</p>
+{% endif %}
+
+<a href="{% url 'create_event' %}"><button>Create New Event</button></a>
+
+{% endblock %}

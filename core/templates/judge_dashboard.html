@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>Judge Dashboard</h2>
+
+{% if submissions %}
+    {% for submission in submissions %}
+        <div style="background-color: burlywood; padding: 12px; color:black;">
+
+            <!-- <p><strong>Participant:</strong> {{ submission.user.username }}</p> -->
+            <p><strong>Event:</strong> {{ submission.event.name }}</p>
+            <p><strong>GitHub Link:</strong> <a href="{{ submission.github_link }}" target="_blank">{{ submission.github_link }}</a></p>
+            
+            
+             {% if submission.team %}
+
+                <p><strong>Type:</strong> Team Submission</p>
+                <p><strong>Team Name:</strong> {{ submission.team.name }}</p>
+
+                <p><strong>Members:</strong></p>
+                <ul>
+                    {% for m in submission.team.members.all %}
+                        <li>{{ m.username }}</li>
+                    {% endfor %}
+                </ul>
+
+            {% else %}
+
+                <p><strong>Type:</strong> Individual Submission</p>
+                <p><strong>Participant:</strong> {{ submission.user.username }}</p>
+
+            {% endif %}
+
+
+                {% if submission.evaluation_set.all %}
+                <div style="background-color: #f0fdf4; padding: 12px; color: #166534;">
+                    {% for evaluation in submission.evaluation_set.all %}
+                        {% if evaluation.judge == user %}
+                            <p><strong>Judge:</strong>{{ evaluation.judge.username }}</p>
+                            <p><strong>Score:</strong>{{ evaluation.score }}</p>
+                        {% endif %}    
+                    {% endfor %}
+                    <p><strong>Status:</strong> Evaluated</p></div>
+                {% else %}<div>
+                    <p><strong>Status:</strong> Not evaluated yet</p>
+                    <a href="{% url 'evaluate_project' submission.id %}"><button>Evaluate</button></a>
+                {% endif %}</div>
+            <!-- <a href="{% url 'evaluate_project' submission.id %}"><button>Evaluate</button></a> -->
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No submissions available for evaluation.</p>
+{% endif %}
+{% endblock %}

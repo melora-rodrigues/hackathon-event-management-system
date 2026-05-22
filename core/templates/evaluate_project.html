@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>Evaluate Project: {{ project.user.username }}'s Submission</h2>
+
+{% if error %}
+    <p style="color:red">{{ error }}</p>
+{% endif %}
+
+<p><strong>Project Link:</strong> <a href="{{ project.github_link }}" target="_blank">{{ project.github_link }}</a></p>
+<p><strong>Event:</strong> {{ project.event.name }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="score">Score (1-100):</label><br>
+        <input type="number" id="score" name="score" min="1" max="100" required>
+    </div><br>
+
+    <div>
+        <label for="feedback">Feedback:</label><br>
+        <textarea id="feedback" name="feedback" rows="4" placeholder="Enter your comments..." required></textarea>
+    </div><br>
+
+    <button type="submit">Submit Evaluation</button>
+</form>
+{% endblock %}

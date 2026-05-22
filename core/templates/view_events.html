@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>All Events</h2>
+
+{% if events %}
+    {% for event in events %}
+        <div class="event-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <h3>{{ event.name }}</h3>
+            {% if event.event_type == "team" %}
+                <p><strong>Type:</strong> Team Event</p>
+            {% else %}
+                <p><strong>Type:</strong> Individual Event</p>
+            {% endif %}
+
+            <p>{{ event.description }}</p>
+            <!-- <p>Deadline: {{ event.deadline }}</p> -->
+
+            <a href="{% url 'submit_project' event.id %}">
+                <button type="button">Submit Project</button>
+            </a>
+
+            {% if event.status == "completed" and event.user_has_submitted  %}
+                <a href="{% url 'leaderboard' event.id %}">
+                    <button type="button">Leaderboard</button>
+                </a>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No events available at the moment. Please check back later.</p>
+{% endif %}
+
+{% endblock %}

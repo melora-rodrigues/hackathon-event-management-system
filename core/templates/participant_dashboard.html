@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>Participant Dashboard</h2>
+{% if submission_data %}
+    {% for data in submission_data %}
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <p><strong>Event:</strong> {{ data.submission.event.name }}</p>
+            {% if data.submission.team %}
+                <p><strong>Type:</strong> Team Submission</p>
+                <p><strong>Team Name:</strong> {{ data.submission.team.name }}</p>
+
+                <p><strong>Members:</strong></p>
+                <ul>
+                {% for m in data.submission.team.members.all %}
+                    <li>{{ m.username }}</li>
+                {% endfor %}
+                </ul>
+
+            {% else %}
+                <p><strong>Type:</strong> Individual Submission</p>
+            {% endif %}
+
+
+            {% if data.submission.github_link %}
+                <p><strong>GitHub Link:</strong> <a href="{{ data.submission.github_link }}" target="_blank">{{ data.submission.github_link }}</a></p>
+            {% else %}
+                <p><strong>GitHub Link:</strong> Not provided (Trial)</p>
+            {% endif %}
+
+            <p><strong>Scores:</strong></p>
+            <ul>
+                {% for eval in data.evaluations %}
+                    <li>{{ eval.judge.username }}: {{ eval.score }}</li>
+                {% empty %}
+                    <li>No evaluations yet</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Total Score:</strong> {{ data.total_score }}</p>
+            
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You have not submitted any projects yet.</p>
+{% endif %}
+
+<a href="{% url 'view_events' %}"><button>View Events</button></a>
+{% endblock %}

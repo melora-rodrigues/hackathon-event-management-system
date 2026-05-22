@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% block content %}
+<h2>Home</h2>
+{% if messages %}
+        <div>
+            {% for message in messages %}
+                <p>⚠️ <strong>{{ message }}</strong></p>
+            {% endfor %}
+        </div>
+        <hr>
+    {% endif %}
+
+    {% if role_pending %}
+        <div>
+            <h2>🔒 Access Restricted</h2>
+            <p>{{ warning_message }}</p>
+            <p><a href="{% url 'logout' %}">Log Out</a></p>
+        </div>
+    {% else %}
+        <div>
+            <h1>Welcome to the Event Portal</h1>
+            <p>Please sign in or register to access your dashboard.</p>
+            <p>
+                <a href="{% url 'login' %}">Sign In</a> | 
+                <a href="{% url 'register' %}">Register</a>
+            </p>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>My Profile</h2>
+
+
+    <div style="max-width: 500px; margin: 0 auto; background: white; padding: 3px 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <h2 style="color: #333; margin-bottom: 5px;">Account Profile</h2>
+        <p style="color: #666; margin-top: 0; font-size: 14px;">Your basic hackathon account registration details</p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+
+        <!-- 🏷️ Personal Details Section -->
+        <p style="margin-bottom: 15px;">
+            <strong>Full Name:</strong> 
+            {{ request.user.first_name }} {{ request.user.last_name }}
+        </p>
+
+        <p style="margin-bottom: 15px;">
+            <strong>Username:</strong> 
+            {{ request.user.username }}
+        </p>
+
+        <p style="margin-bottom: 25px;">
+            <strong>Email Address:</strong> 
+            {{ request.user.email|default:"No email registered" }}
+        </p>
+
+        <!-- 🛡️ Dynamic System Role Badge Section -->
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #007bff; margin-bottom: 25px;">
+            <strong style="display: block; margin-bottom: 5px; color: #555;">System Authority:</strong>
+            
+            {% if role == 'Organizer' %}
+                <span style="background-color: red; color: white; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">🔴 Organizer</span>
+            {% elif role == 'Judge' %}
+                <span style="background-color: yellow; color: #212529; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">🟡 Official Judge</span>
+            {% elif role == 'Participant' %}
+                <span style="background-color: green; color: white; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">🟢 Participant</span>
+            {% else %}
+                <span style="background-color: grey; color: white; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold;">Standard User</span>
+            {% endif %}
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+        
+        <a href="{% url 'home' %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; margin-bottom: 20px;">
+        </a>
+    </div>
+
+{% endblock %}

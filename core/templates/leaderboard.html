@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h2>Leaderboard - {{ event.name }}</h2>
+
+{% if leaderboard %}
+
+<table border="1" cellpadding="10" cellspacing="0" style="width:100%; text-align:center;">
+
+    <tr>
+        <th>Rank</th>
+        <th>Participant</th>
+        <th>Submission Type</th>
+        <th>Score</th>
+        <th>Judges Count</th>
+    </tr>
+
+    {% for item in leaderboard %}
+
+    <tr>
+
+        <!-- Rank -->
+        <td>{{ item.rank }}</td>
+
+        <!-- Participant (TEAM or INDIVIDUAL) -->
+        <td>
+            {% if item.submission.team %}
+                {{ item.submission.team.name }}
+            {% else %}
+                {{ item.submission.user.username }}
+            {% endif %}
+        </td>
+
+        <!-- TYPE -->
+        <td>
+            {% if item.submission.team %}
+                Team
+            {% else %}
+                Individual
+            {% endif %}
+        </td>
+
+        <!-- SCORE -->
+        <td>{{ item.average_score }}</td>
+
+        <!-- JUDGES -->
+        <td>{{ item.judge_count }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+    <p>No submissions available for leaderboard.</p>
+{% endif %}
+
+{% endblock %}

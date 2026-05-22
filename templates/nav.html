@@ -1,0 +1,23 @@
+<nav class="navbar">
+    {% if user.is_authenticated %}
+        {% for group in user.groups.all %}
+            {% if group.name == "Organizer" %}
+                <a href="{% url 'organizer_dashboard' %}">Dashboard</a>
+                <a href="{% url 'create_event' %}">Create Event</a>
+            {% elif group.name == "Judge" %}
+                <a href="{% url 'judge_dashboard' %}">Dashboard</a>
+            {% elif group.name == "Participant" %}
+                <a href="{% url 'participant_dashboard' %}">Dashboard</a>
+                <a href="{% url 'view_events' %}">View Events</a>
+            {% endif %}
+        {% endfor %}
+
+        <div class="nav-right" style="display: flex; gap: 15px; margin-left: auto;"><a href="{% url 'profile' %}">My Profile</a></div>
+
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+    
+</nav>
